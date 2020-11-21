@@ -1,0 +1,7 @@
+{
+  "name": "interval-timer",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}
