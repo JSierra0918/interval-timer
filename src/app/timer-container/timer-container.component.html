@@ -1,0 +1,11 @@
+<app-subtimer [subtime]="time.subtimer"></app-subtimer>
+<!-- //main timer component will be dumb and centered. -->
+<ion-grid>
+  <ion-row class="ion-text-center">
+    <ion-col size="12">
+      <p class="ion-justify-content-center"> Timer: {{ time.main.h }} : {{ time.main.m }} : {{ time.main.s }}</p>
+      <ion-button color="primary" (click)="startTheTime()">Start</ion-button>
+      <ion-button color="secondary" (click)="pauseTheTimer()">Pause</ion-button>
+    </ion-col> 
+  </ion-row>
+</ion-grid>

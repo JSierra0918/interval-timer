@@ -8,6 +8,8 @@ import { StatusBar } from '@ionic-native/status-bar/ngx';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+import { SubtimerComponent } from './subtimer/subtimer.component';
+import { TimerContainerComponent } from './timer-container/timer-container.component';
 
 @NgModule({
   declarations: [AppComponent],
