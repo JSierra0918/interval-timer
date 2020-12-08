@@ -10,11 +10,11 @@ const profileKey = 'profiles';
 export class StorageService {
 	constructor(private storage: Storage) {}
 
-	loadProfiles(): Promise<StorageItem[]> {
-		return this.storage.get(profileKey);
+	async loadProfiles(): Promise<StorageItem[]> {
+		return await this.storage.get(profileKey);
 	}
 
-	async addNewProfile(item: StorageItem): Promise<any> {
+	async createProfile(item: StorageItem): Promise<any> {
 		const storedItems: StorageItem[] = await this.storage.get(profileKey);
 		if (storedItems) {
 			storedItems.push(item);
@@ -24,7 +24,23 @@ export class StorageService {
 		}
 	}
 
-	editProfile(item: StorageItem) {}
+	async editProfile(item: StorageItem) {
+		const storedItems: StorageItem[] = await this.storage.get(profileKey);
+		if (!storedItems || storedItems.length === 0) {
+			return;
+		}
 
-	deleteProfile(item: StorageItem) {}
+		const newItem: StorageItem[] = [...storedItems, item];
+		return this.storage.set(profileKey, newItem);
+	}
+
+	async deleteProfile(item: StorageItem) {
+		const storedItems: StorageItem[] = await this.storage.get(profileKey);
+		if (!storedItems || storedItems.length === 0) {
+			return;
+		}
+
+		const newItem: StorageItem[] = storedItems.filter((profile) => profile.id !== item.id);
+		return this.storage.set(profileKey, newItem);
+	}
 }
