@@ -27,7 +27,7 @@ export class StorageService {
 		const storedItems: StorageItem[] = await this.storage.get(profileKey);
 		if (!storedItems || storedItems.length === 0) { return; }
 
-		const newItem: StorageItem[] = [...storedItems, item];
+		const newItem: StorageItem[] = [...storedItems, {...item}];
 		return this.storage.set(profileKey, newItem);
 	}
 

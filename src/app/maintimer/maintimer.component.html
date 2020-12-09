@@ -1,0 +1,13 @@
+<p>maintimer works!</p>
+<ion-row class="ion-text-center ion-justify-content-center ion-align-items-center" style="height: 100%">
+	<ion-col size="12">
+		<div class="main-timer">
+			<span> {{ mainTime.h }}</span> <span> {{ mainTime.m }}</span> <span> {{ mainTime.s }}</span>
+
+			<section class="main-timer__buttons">
+				<ion-button color="primary" (click)="startTimer()">Start</ion-button>
+				<ion-button color="secondary" (click)="pauseTimer()">Pause</ion-button>
+			</section>
+		</div>
+	</ion-col>
+</ion-row>

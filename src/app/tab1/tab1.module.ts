@@ -7,6 +7,7 @@ import { Tab1Page } from './tab1.page';
 import { Tab1PageRoutingModule } from './tab1-routing.module';
 import { TimerContainerComponent } from '../timer-container/timer-container.component';
 import { SubtimerComponent } from '../subtimer/subtimer.component';
+import { MaintimerComponent } from '../maintimer/maintimer.component';
 
 @NgModule({
   imports: [
@@ -15,6 +16,6 @@ import { SubtimerComponent } from '../subtimer/subtimer.component';
     FormsModule,
     Tab1PageRoutingModule
   ],
-  declarations: [Tab1Page, TimerContainerComponent, SubtimerComponent]
+  declarations: [Tab1Page, TimerContainerComponent, SubtimerComponent, MaintimerComponent]
 })
 export class Tab1PageModule {}

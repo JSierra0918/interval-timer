@@ -35,7 +35,7 @@ export class TimerContainerComponent implements OnInit {
 		];
 	}
 
-	startTheTime() {
+	startTheTimer = () => {
 		if (this.time.main.isRunning) {
 			return;
 		}
@@ -51,9 +51,9 @@ export class TimerContainerComponent implements OnInit {
 				// subtimers cannot go longer than main timer; makes subtimers equal to main if they're higher
 				if (mainTimer.h < subTimer.h) subTimer.h = mainTimer.h;
 				if (mainTimer.m < subTimer.m) subTimer.m = mainTimer.m;
-        if (mainTimer.s < subTimer.s) subTimer.s = mainTimer.s;
-        
-        subTimer = {...this.addPadding(subTimer)};
+				if (mainTimer.s < subTimer.s) subTimer.s = mainTimer.s;
+
+				subTimer = { ...this.addPadding(subTimer) };
 				sTime.h = subTimer.h;
 				sTime.m = subTimer.m;
 				sTime.s = subTimer.s;
@@ -61,14 +61,14 @@ export class TimerContainerComponent implements OnInit {
 
 			this.time.main = { ...this.time.main, ...this.addPadding(mainTimer) };
 		}, 1000);
-	}
+	};
 
-	pauseTheTimer() {
+	pauseTheTimer = () => {
 		this.time.main.isRunning = false;
 		clearInterval(this.timerInterval);
-	}
+	};
 
-	timerCountDown({ h, m, s }: CountDownTimer): CountDownTimer {
+	private timerCountDown({ h, m, s }: CountDownTimer): CountDownTimer {
 		// get Total seconds
 		let totalSeconds = this.convertToTotalSeconds(Number(h), Number(m), Number(s));
 
@@ -90,14 +90,14 @@ export class TimerContainerComponent implements OnInit {
 		return { h, m, s };
 	}
 
-	convertToTotalSeconds(h: number, m: number, s: number): number {
+	private convertToTotalSeconds(h: number, m: number, s: number): number {
 		const hoursAsSeconds = h * 3600;
 		const minutesAsSeconds = m * 60;
 
 		return hoursAsSeconds + minutesAsSeconds + s;
 	}
 
-	addPadding(t: CountDownTimer): CountDownTimer {
+	private addPadding(t: CountDownTimer): CountDownTimer {
 		let paddedT: CountDownTimer = { ...t };
 		for (const key in t) {
 			if (paddedT[key] !== null) {

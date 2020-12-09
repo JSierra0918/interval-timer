@@ -1,0 +1,14 @@
+.main-timer {
+    span {
+        background: lightblue;
+        display: inline-block;
+        margin: 4px;
+        font-size: 64px;
+        padding: 24px;
+    }
+
+    &__buttons {
+        display: flex;
+        justify-content: space-evenly;
+       }
+}
