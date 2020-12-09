@@ -1,0 +1,13 @@
+.missing-profile {
+    text-align: center;
+
+    &__text {
+        font-size: 1.3rem;
+        line-height: 1.5rem;
+    }
+
+    &__icon {
+        font-size: 40vw;
+        cursor: pointer;
+    }
+}

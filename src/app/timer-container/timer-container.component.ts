@@ -9,30 +9,32 @@ import { SubtimerComponent } from '../subtimer/subtimer.component';
 	styleUrls: ['./timer-container.component.scss'],
 })
 export class TimerContainerComponent implements OnInit {
-	time: TimerModel = { main: {}, subtimer: [] };
-	timerInterval: any;
-
+	time: TimerModel = { main: null, subtimer: [] };
+	timerInterval: any;	
+	isCreatingProfile: boolean = false;
 	constructor() {}
 
 	ngOnInit() {
-		this.time.main = {
-			h: 0,
-			m: 0,
-			s: 20,
-		};
+		// this.time.main = {
+		// 	h: 0,
+		// 	m: 0,
+		// 	s: 20,
+		// };
 
-		this.time.subtimer = [
-			{
-				h: 0,
-				m: 0,
-				s: 10,
-			},
-			{
-				h: 0,
-				m: 0,
-				s: 5,
-			},
-		];
+		// this.time.subtimer = [
+		// 	{
+		// 		h: 0,
+		// 		m: 0,
+		// 		s: 10,
+		// 	},
+		// 	{
+		// 		h: 0,
+		// 		m: 0,
+		// 		s: 5,
+		// 	},
+		// ];
+
+		console.log(Boolean(this.time.main))
 	}
 
 	startTheTimer = () => {
@@ -106,5 +108,9 @@ export class TimerContainerComponent implements OnInit {
 		}
 
 		return paddedT;
+	}
+
+	createProfile() {
+		this.isCreatingProfile = !this.isCreatingProfile;
 	}
 }
