@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { timer } from 'rxjs';
 import { TimerModel, CountDownTimer } from '../models/main-timer';
-import { SubtimerComponent } from '../subtimer/subtimer.component';
+import { ModalController } from '@ionic/angular';
+import { IonRouterOutlet } from '@ionic/angular';
+import { ProfileFormComponent } from '../profile-form/profile-form.component';
 
 @Component({
 	selector: 'app-timer-container',
@@ -10,9 +11,10 @@ import { SubtimerComponent } from '../subtimer/subtimer.component';
 })
 export class TimerContainerComponent implements OnInit {
 	time: TimerModel = { main: null, subtimer: [] };
-	timerInterval: any;	
+	timerInterval: any;
 	isCreatingProfile: boolean = false;
-	constructor() {}
+	modal = null;
+	constructor(public modalController: ModalController, private routerOutlet: IonRouterOutlet) {}
 
 	ngOnInit() {
 		// this.time.main = {
@@ -20,7 +22,6 @@ export class TimerContainerComponent implements OnInit {
 		// 	m: 0,
 		// 	s: 20,
 		// };
-
 		// this.time.subtimer = [
 		// 	{
 		// 		h: 0,
@@ -33,8 +34,6 @@ export class TimerContainerComponent implements OnInit {
 		// 		s: 5,
 		// 	},
 		// ];
-
-		console.log(Boolean(this.time.main))
 	}
 
 	startTheTimer = () => {
@@ -112,5 +111,29 @@ export class TimerContainerComponent implements OnInit {
 
 	createProfile() {
 		this.isCreatingProfile = !this.isCreatingProfile;
+		console.log('isCreatingProfile:', this.isCreatingProfile);
+		this.presentModal();
+	}
+
+	async presentModal() {
+		const modal = await this.modalController.create({
+			component: ProfileFormComponent,
+			cssClass: 'my-custom-class',
+			swipeToClose: true,
+			presentingElement: this.routerOutlet.nativeEl,
+			componentProps: this.time,
+		});
+		this.modal = modal;
+		return await modal.present();
+	}
+
+	async dismiss() {
+		this.modalController.dismiss({
+			dismissed: true,
+		});
+		const { data } = await this.modal.onWillDismiss();
+		console.log('data:', data);
+		// this.modal.dismiss().then(() => { this.modal = null; });
+
 	}
 }

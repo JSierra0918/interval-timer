@@ -8,6 +8,7 @@ import { Tab1PageRoutingModule } from './tab1-routing.module';
 import { TimerContainerComponent } from '../timer-container/timer-container.component';
 import { SubtimerComponent } from '../subtimer/subtimer.component';
 import { MaintimerComponent } from '../maintimer/maintimer.component';
+import { ProfileFormComponent } from '../profile-form/profile-form.component';
 
 @NgModule({
   imports: [
@@ -16,6 +17,6 @@ import { MaintimerComponent } from '../maintimer/maintimer.component';
     FormsModule,
     Tab1PageRoutingModule
   ],
-  declarations: [Tab1Page, TimerContainerComponent, SubtimerComponent, MaintimerComponent]
+  declarations: [Tab1Page, TimerContainerComponent, SubtimerComponent, MaintimerComponent, ProfileFormComponent]
 })
 export class Tab1PageModule {}
