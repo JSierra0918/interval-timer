@@ -13,7 +13,7 @@ export class TimerContainerComponent implements OnInit {
 	time: TimerModel = { main: null, subtimer: [] };
 	timerInterval: any;
 	isCreatingProfile: boolean = false;
-	modal = null;
+
 	constructor(public modalController: ModalController, private routerOutlet: IonRouterOutlet) {}
 
 	ngOnInit() {
@@ -123,17 +123,9 @@ export class TimerContainerComponent implements OnInit {
 			presentingElement: this.routerOutlet.nativeEl,
 			componentProps: this.time,
 		});
-		this.modal = modal;
+
+		// const {data} = await modal.onDidDismiss();
+		// console.log(data)
 		return await modal.present();
-	}
-
-	async dismiss() {
-		this.modalController.dismiss({
-			dismissed: true,
-		});
-		const { data } = await this.modal.onWillDismiss();
-		console.log('data:', data);
-		// this.modal.dismiss().then(() => { this.modal = null; });
-
 	}
 }

@@ -1,0 +1,9 @@
+{
+	"labels": {
+		"createProfile": "Create Profile",
+		"mainTimer": "Main Timer",
+		"profileName": "Profile Name:",
+		"subtimer": "Subtimer",
+		"time": "Time"
+	}
+}

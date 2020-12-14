@@ -1,3 +1,26 @@
-<p>
-  profile-form works!
-</p>
+<ion-header>
+	<ion-toolbar>
+		<ion-title>Create Profile</ion-title>
+		<ion-buttons slot="end">
+			<ion-button (click)="dismissModal()">
+				<ion-icon slot="icon-only" name="close"></ion-icon>
+			</ion-button>
+		</ion-buttons>
+	</ion-toolbar>
+</ion-header>
+
+<ion-content padding>
+  <ion-item>
+    <ion-label position="stacked">Profile Name</ion-label>
+    <ion-input></ion-input>
+  </ion-item>
+  <ion-item>
+    <ion-label position="stacked">Main Timer:</ion-label>
+    <ion-input type="number"></ion-input>
+  </ion-item>
+    <ion-item  *ngFor="let subtime of test">
+      <ion-label position="stacked">SubTime:</ion-label>
+      <ion-input type="number"></ion-input>
+    </ion-item>
+  <ion-button>Add New</ion-button>
+</ion-content>
