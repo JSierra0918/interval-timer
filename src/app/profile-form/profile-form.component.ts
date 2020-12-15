@@ -1,5 +1,5 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { FormArray, FormBuilder } from '@angular/forms';
+import { Component, OnInit } from '@angular/core';
+import { FormArray, FormBuilder, Validators } from '@angular/forms';
 import { ModalController } from '@ionic/angular';
 import content from '../../content/content.json';
 import { StorageItem } from '../models/storage-item';
@@ -15,15 +15,20 @@ export class ProfileFormComponent implements OnInit {
 	content = content;
 
 	profileForm = this.fb.group({
-		profileName: [''],
-		mainTimer: this.fb.group({
-			h: '',
-			m: '',
-			s: '',
+		profileName: ['', [Validators.required]],
+		mainTimeGroup: this.fb.group({
+			h: [null, [Validators.maxLength(2)]],
+			m: [null, [Validators.maxLength(2)]],
+			s: [null, [Validators.maxLength(2)]],
+		}),
+		subTimeGroup: this.fb.group({
+			h: [null, [Validators.maxLength(2)]],
+			m: [null, [Validators.maxLength(2)]],
+			s: [null, [Validators.maxLength(2)]],
 		}),
 	});
 
-	constructor(private modalController: ModalController, private fb: FormBuilder, private storageService: StorageService) {}
+	constructor(private modalController: ModalController, private fb: FormBuilder, private storageService: StorageService) { }
 
 	ngOnInit() {
 		console.log(this.profileForm);
@@ -48,5 +53,10 @@ export class ProfileFormComponent implements OnInit {
 			main: {},
 			subtimer: [],
 		};
+	}
+
+	maxOfTwentyFourHours(c: AbortController): { [key: string] : boolean } | null {
+
+		return null;
 	}
 }

@@ -17,11 +17,13 @@
 		</ion-item>
 		<ion-item>
 			<ion-label position="stacked">{{content.labels.mainTimer}}:</ion-label>
-			<ion-input placeholder="Hours" type="number" formControlName="h"></ion-input>
-			<ion-input placeholder="Minutes" type="number" formControlName="m"></ion-input>
-			<ion-input placeholder="Seconds" type="number" formControlName="s"></ion-input>
+			<div formGroupName="mainTimeGroup" class="main-timer" >
+				<ion-input placeholder="Hours" type="number" formControlName="h" max="24"></ion-input>
+				<ion-input placeholder="Minutes" type="number" formControlName="m" max="60"></ion-input>
+				<ion-input placeholder="Seconds" type="number" formControlName="s" max="60"></ion-input>
+			</div>
 		</ion-item>
-		<ion-item *ngFor="let subtime of test">
+		<ion-item *ngFor="let subtime of test" formGroupName="subTimeGroup">
 			<ion-label position="stacked">{{content.labels.subtimer	}}:</ion-label>
 			<ion-input type="number" formControlName="sbInput"></ion-input>
 		</ion-item>
