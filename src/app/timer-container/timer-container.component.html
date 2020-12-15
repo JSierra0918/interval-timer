@@ -1,7 +1,6 @@
 <ion-grid style="height: 100%">
 	<app-subtimer *ngIf="time.main" [subtime]="time.subtimer"></app-subtimer>
 	<!-- //main timer component will be dumb and centered. -->
-
 	<app-maintimer *ngIf="time.main" [mainTime]="time.main" (startTheTimer)="startTheTimer()" (pauseTheTimer)="pauseTheTimer()"></app-maintimer>
 
 	<ion-row>

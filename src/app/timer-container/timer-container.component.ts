@@ -3,6 +3,7 @@ import { TimerModel, CountDownTimer } from '../models/main-timer';
 import { ModalController } from '@ionic/angular';
 import { IonRouterOutlet } from '@ionic/angular';
 import { ProfileFormComponent } from '../profile-form/profile-form.component';
+import * as content from '../../content/content.json';
 
 @Component({
 	selector: 'app-timer-container',
@@ -13,6 +14,7 @@ export class TimerContainerComponent implements OnInit {
 	time: TimerModel = { main: null, subtimer: [] };
 	timerInterval: any;
 	isCreatingProfile: boolean = false;
+	content = content;
 
 	constructor(public modalController: ModalController, private routerOutlet: IonRouterOutlet) {}
 

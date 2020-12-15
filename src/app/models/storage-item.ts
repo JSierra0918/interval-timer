@@ -1,7 +1,7 @@
 import { TimerModel } from './main-timer';
 
 export interface StorageItem {
-    id: number;
+    id: string|number;
     profileName: string;
     timer: TimerModel;
 }

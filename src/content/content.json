@@ -4,6 +4,7 @@
 		"mainTimer": "Main Timer",
 		"profileName": "Profile Name:",
 		"subtimer": "Subtimer",
-		"time": "Time"
+		"time": "Time",
+		"save": "Save Profile"
 	}
 }
