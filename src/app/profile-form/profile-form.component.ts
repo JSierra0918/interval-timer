@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormArray, FormBuilder, Validators } from '@angular/forms';
+import { FormArray, FormBuilder, Validators, AbstractControl, FormGroup } from '@angular/forms';
 import { ModalController } from '@ionic/angular';
 import content from '../../content/content.json';
 import { StorageItem } from '../models/storage-item';
@@ -11,7 +11,6 @@ import { StorageService } from '../services/storage.service';
 	styleUrls: ['./profile-form.component.scss'],
 })
 export class ProfileFormComponent implements OnInit {
-	test = Array(3);
 	content = content;
 
 	profileForm = this.fb.group({
@@ -21,11 +20,7 @@ export class ProfileFormComponent implements OnInit {
 			m: [null, [Validators.maxLength(2)]],
 			s: [null, [Validators.maxLength(2)]],
 		}),
-		subTimeGroup: this.fb.group({
-			h: [null, [Validators.maxLength(2)]],
-			m: [null, [Validators.maxLength(2)]],
-			s: [null, [Validators.maxLength(2)]],
-		}),
+		subTimeGroup: this.fb.array([]),
 	});
 
 	constructor(private modalController: ModalController, private fb: FormBuilder, private storageService: StorageService) { }
@@ -40,11 +35,21 @@ export class ProfileFormComponent implements OnInit {
 		});
 	}
 
-	addNewSubtimer() {
-		this.test.push('');
+	get subtimeForm() {
+		return this.profileForm.get('subTimeGroup') as FormArray;
 	}
 
-	saveProfile() {
+	addNewSubtimer() {
+		const subtime = this.fb.group({
+			h: [null],
+			m: [null],
+			s: [null],
+		});
+
+		this.subtimeForm.push(subtime);
+	}
+
+	saveProfile(): void {
 		const newProfile = {} as StorageItem;
 
 		newProfile.id = this.profileForm.value.profileName;
@@ -55,8 +60,12 @@ export class ProfileFormComponent implements OnInit {
 		};
 	}
 
-	maxOfTwentyFourHours(c: AbortController): { [key: string] : boolean } | null {
+	maxOfTwentyFourHours(c: AbstractControl): { [key: string]: boolean } | null {
 
 		return null;
+	}
+
+	deleteSubtimeForm = (i) => {
+		this.subtimeForm.removeAt(i);
 	}
 }

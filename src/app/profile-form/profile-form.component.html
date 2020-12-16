@@ -10,24 +10,30 @@
 </ion-header>
 
 <ion-content padding>
-	<form [formGroup]="profileForm">
+	<form [formGroup]="profileForm" padding>
+		<ion-label position="stacked">{{content.labels.profileName}}</ion-label>
+		<input type="number" pattern="/^-?\d+\.?\d*$/" onKeyPress="if(this.value.length===2) return false;" />
+
 		<ion-item>
-			<ion-label position="stacked">{{content.labels.createProfile}}</ion-label>
 			<ion-input formControlName="profileName"></ion-input>
 		</ion-item>
-		<ion-item>
-			<ion-label position="stacked">{{content.labels.mainTimer}}:</ion-label>
-			<div formGroupName="mainTimeGroup" class="main-timer" >
+		<ion-label position="stacked">{{content.labels.mainTimer}}:</ion-label>
+		<ion-item formGroupName="mainTimeGroup" class="main-timer">
 				<ion-input placeholder="Hours" type="number" formControlName="h" max="24"></ion-input>
 				<ion-input placeholder="Minutes" type="number" formControlName="m" max="60"></ion-input>
 				<ion-input placeholder="Seconds" type="number" formControlName="s" max="60"></ion-input>
-			</div>
 		</ion-item>
-		<ion-item *ngFor="let subtime of test" formGroupName="subTimeGroup">
-			<ion-label position="stacked">{{content.labels.subtimer	}}:</ion-label>
-			<ion-input type="number" formControlName="sbInput"></ion-input>
-		</ion-item>
+
+		<ion-label>{{content.labels.subtimer	}}:</ion-label>
+		<div formArrayName="subTimeGroup">
+			<ion-item *ngFor="let subtime of subtimeForm.controls; let i=index" [formGroupName]="i">
+				<ion-input placeholder="Hours" type="number" formControlName="h" max="2"></ion-input>
+				<ion-input placeholder="Minutes" type="number" formControlName="m" max="2"></ion-input>
+				<ion-input placeholder="Seconds" type="number" formControlName="s" max="2"></ion-input>
+				<ion-button (click)="deleteSubtimeForm()">Delete</ion-button>
+			</ion-item>
+		</div>
+		<ion-button (click)="addNewSubtimer()">Add New</ion-button>
 	</form>
-	<ion-button (click)="addNewSubtimer()">Add New</ion-button>
 	<ion-button (click)="saveProfile()" expand="full">{{content.labels.save}}</ion-button>
 </ion-content>
