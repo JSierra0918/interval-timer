@@ -25,9 +25,7 @@ export class ProfileFormComponent implements OnInit {
 
 	constructor(private modalController: ModalController, private fb: FormBuilder, private storageService: StorageService) { }
 
-	ngOnInit() {
-		console.log(this.profileForm);
-	}
+	ngOnInit() { }
 
 	async dismissModal() {
 		this.modalController.dismiss({
@@ -68,4 +66,18 @@ export class ProfileFormComponent implements OnInit {
 	deleteSubtimeForm = (i) => {
 		this.subtimeForm.removeAt(i);
 	}
+
+	minimumNumbers(e) {
+		const length = e.target.value.length;
+		if (e.code === "KeyE") { return false }
+		if (length === 2) { e.target.value = e.target.value.slice(0, 1) }
+	}
+
+	maxInput(e, maxNum: number) {
+		const val = e.target.value;
+		console.log(e);
+		if (val >= maxNum) {console.log(val); e.target.value = maxNum }
+	}
+
+
 }
