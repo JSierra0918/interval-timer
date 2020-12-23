@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormArray, FormBuilder, Validators, AbstractControl, FormGroup } from '@angular/forms';
+import { FormArray, FormBuilder, Validators, AbstractControl, FormGroup, Form } from '@angular/forms';
 import { ModalController } from '@ionic/angular';
 import { filter, tap } from 'rxjs/operators';
 import content from '../../content/content.json';
@@ -21,7 +21,7 @@ export class ProfileFormComponent implements OnInit {
 			m: [null, [Validators.min(0)]],
 			s: [null, [Validators.min(0)]],
 		}),
-		subTimeGroup: this.fb.array([]),
+		subtimeArrayGroup: this.fb.array([]),
 	});
 
 	constructor(private modalController: ModalController, private fb: FormBuilder, private storageService: StorageService) { }
@@ -29,11 +29,11 @@ export class ProfileFormComponent implements OnInit {
 	ngOnInit() { this.onChanges() }
 
 	get mainTimeForm() {
-		return this.profileForm.get('mainTimeGroup') as FormArray;
+		return this.profileForm.get('mainTimeGroup') as FormGroup;
 	}
 
-	get subtimeForm() {
-		return this.profileForm.get('subTimeGroup') as FormArray;
+	get subtimeArray() {
+		return this.profileForm.get('subtimeArrayGroup') as FormArray;
 	}
 
 	async dismissModal() {
@@ -43,13 +43,13 @@ export class ProfileFormComponent implements OnInit {
 	}
 
 	addNewSubtimer(): void {
-		const subtime = this.fb.group({
+		const subtimeGroup: FormGroup = this.fb.group({
 			h: [null, [Validators.min(0)]],
 			m: [null, [Validators.min(0)]],
 			s: [null, [Validators.min(0)]],
 		});
 
-		this.subtimeForm.push(subtime);
+		this.subtimeArray.push(subtimeGroup);
 	}
 
 	saveProfile(): void {
@@ -69,23 +69,29 @@ export class ProfileFormComponent implements OnInit {
 	}
 
 	deleteSubtimeForm = (i) => {
-		this.subtimeForm.removeAt(i);
+		this.subtimeArray.removeAt(i);
 	}
 
 	private onChanges(): void {
-		const mainTimeGroupRestraints = this.mainTimeForm.valueChanges.pipe(tap(val => {
+		const mainTimeGroupRestraints =	this.mainTimeForm.valueChanges.pipe(tap(val => {
 			if (val.h > 24 || val.h < 0) { this.mainTimeForm.patchValue({ ...val, h: 24 }) }
 			if (val.m > 60) { this.mainTimeForm.patchValue({ ...val, m: 60 }) }
 			if (val.s > 60) { this.mainTimeForm.patchValue({ ...val, s: 60 }) }
 		}));
 
-		const subtimeGroupRestraints =this.subtimeForm.valueChanges.pipe(tap(val => {
-			if (val.h > 24) { this.subtimeForm.patchValue({ ...val, h: 24 }) }
-			if (val.m > 60) { this.subtimeForm.patchValue({ ...val, m: 60 }) }
-			if (val.s > 60) { this.subtimeForm.patchValue({ ...val, s: 60 }) }
-		}));
+		this.subtimeArray.valueChanges.pipe(tap((form => {
+			for (const val of form) {
+				if (val.h > 24) { val.h = 24 }
+				if (val.m > 60) { val.m = 60 }
+				if (val.s > 60) { val.s = 60 }
+
+			}
+
+			console.log(form);
+		})));
+
 		mainTimeGroupRestraints.subscribe();
-		subtimeGroupRestraints.subscribe()
+		// subtimeGroupRestraints.subscribe()
 
 		// subscribe to formArray
 	}

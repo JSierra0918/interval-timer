@@ -3,7 +3,8 @@
 		"createProfile": "Create Profile",
 		"mainTimer": "Main Timer",
 		"profileName": "Profile Name:",
-		"subtimer": "Subtimer",
+		"subtimers": "Subtimers",
+		"subtimer": "Subtimer ",
 		"time": "Time",
 		"save": "Save Profile"
 	}
