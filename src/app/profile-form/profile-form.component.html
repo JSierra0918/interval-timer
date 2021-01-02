@@ -12,11 +12,11 @@
 <ion-content padding>
 	<form [formGroup]="profileForm" padding>
 		<ion-item>
-			<ion-label position="stacked">{{content.labels.profileName}}</ion-label>
+			<ion-label position="stacked">{{ content.labels.profileName }}</ion-label>
 			<ion-input formControlName="profileName"></ion-input>
 		</ion-item>
 		<ion-list-header>
-			<ion-label>{{content.labels.mainTimer}}:</ion-label>
+			<ion-label>{{ content.labels.mainTimer }}:</ion-label>
 		</ion-list-header>
 
 		<ion-item formGroupName="mainTimeGroup" class="main-timer">
@@ -26,12 +26,10 @@
 		</ion-item>
 
 		<ion-list-header lines="full" class="ion-no-margin">
-			<ion-label>{{content.labels.subtimers}}:</ion-label>
+			<ion-label>{{ content.labels.subtimers }}:</ion-label>
 		</ion-list-header>
 		<div formArrayName="subtimeArrayGroup" class="create-profile">
-			<div *ngFor="let subtime of subtimeArray.controls; let i=index" [formGroupName]="i"
-				class="ion-justify-content-center">
-
+			<div *ngFor="let subtime of subtimeArray.controls; let i = index" [formGroupName]="i" class="ion-justify-content-center">
 				<div class="create-profile__subtimeInput">
 					<ion-input placeholder="Hours" type="number" formControlName="h" max="2"></ion-input>
 					<ion-input placeholder="Minutes" type="number" formControlName="m" max="2"></ion-input>
@@ -42,5 +40,5 @@
 		</div>
 		<ion-button (click)="addNewSubtimer()">Add New</ion-button>
 	</form>
-	<ion-button (click)="saveProfile()" expand="full">{{content.labels.save}}</ion-button>
+	<ion-button (click)="saveProfile()" expand="full">{{ content.labels.save }}</ion-button>
 </ion-content>
