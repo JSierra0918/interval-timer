@@ -1,11 +1,12 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { FormArray, FormBuilder, Validators, AbstractControl, FormGroup, Form } from '@angular/forms';
+import { FormArray, FormBuilder, Validators, AbstractControl, FormGroup } from '@angular/forms';
 import { ModalController } from '@ionic/angular';
 import { Subject } from 'rxjs';
 import { debounceTime, takeUntil, tap } from 'rxjs/operators';
 import content from '../../content/content.json';
 import { StorageItem } from '../models/storage-item';
 import { StorageService } from '../services/storage.service';
+import {CountDownTimer} from '../models/main-timer';
 
 @Component({
 	selector: 'app-profile-form',
@@ -36,7 +37,7 @@ export class ProfileFormComponent implements OnInit, OnDestroy {
 	}
 
 	ionViewDidEnter() {
-		this.watchMainGroupChanges();
+		this.watchMainGroupForOverValues();
 	}
 
 	//getters
@@ -66,7 +67,7 @@ export class ProfileFormComponent implements OnInit, OnDestroy {
 			s: [null, [Validators.min(0)]],
 		});
 
-		this.watchSubtimeGroupChanges(subtimeGroup);
+		this.watchSubtimeForOverValues(subtimeGroup);
 		this.subtimeArray.push(subtimeGroup);
 	}
 
@@ -90,38 +91,38 @@ export class ProfileFormComponent implements OnInit, OnDestroy {
 	};
 
 	//watchers
-	private watchMainGroupChanges(): void {
+	private watchMainGroupForOverValues(): void {
 		const mainTimeGroupRestraints = this.mainTimeForm.valueChanges.pipe(
 			takeUntil(this.unsubscribe$),
-			tap((val) => {
-				console.log(this.profileForm);
-				if (val.h > 24 || val.h < 0) {
-					this.mainTimeForm.patchValue({ ...val, h: 24 });
-				}
-				if (val.m > 60) {
-					this.mainTimeForm.patchValue({ ...val, m: 60 });
-				}
-				if (val.s > 60) {
-					this.mainTimeForm.patchValue({ ...val, s: 60 });
-				}
-			})
+			debounceTime(1000)
 		);
 
-		mainTimeGroupRestraints.subscribe();
+		mainTimeGroupRestraints.subscribe( val => {
+			const checkedValues = this.preventOverValues(val);
+			this.mainTimeForm.patchValue({...checkedValues})
+		});
 	}
 
-	private watchSubtimeGroupChanges(subtimeGroup): void {
+	private watchSubtimeForOverValues(subtimeGroup): void {
 		subtimeGroup.valueChanges.pipe(takeUntil(this.unsubscribe$), debounceTime(1000)).subscribe((val) => {
-			if (val.h > 24 || val.h < 0) {
-				subtimeGroup.patchValue({ ...val, h: 24 });
-			}
-			if (val.m > 60) {
-				subtimeGroup.patchValue({ ...val, m: 60 });
-			}
-			if (val.s > 60) {
-				subtimeGroup.patchValue({ ...val, s: 60 });
-			}
+			const checkedValues = this.preventOverValues(val);
+			subtimeGroup.patchValue({...checkedValues});
 		});
+	}
+
+	private preventOverValues(val): CountDownTimer {
+		let newValue = {};
+		if (val.h > 24 ) {
+			newValue = { ...val, h: 24 };
+		}
+		if (val.m > 60) {
+			newValue = { ...val, m: 60 };
+		}
+		if (val.s > 60) {
+			newValue = { ...val, s: 60 };
+		}
+
+		return newValue;
 	}
 
 	preventEValue(e): void {
