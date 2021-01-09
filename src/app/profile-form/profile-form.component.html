@@ -15,6 +15,7 @@
 			<ion-label position="stacked">{{ content.labels.profileName }}</ion-label>
 			<ion-input formControlName="profileName"></ion-input>
 		</ion-item>
+
 		<ion-list-header>
 			<ion-label>{{ content.labels.mainTimer }}:</ion-label>
 		</ion-list-header>
@@ -40,5 +41,5 @@
 		</div>
 		<ion-button (click)="addNewSubtimer()">Add New</ion-button>
 	</form>
-	<ion-button (click)="saveProfile()" expand="full">{{ content.labels.save }}</ion-button>
+	<ion-button (click)="saveProfile()" expand="full" [disabled]="profileForm.invalid">{{ content.labels.save }}</ion-button>
 </ion-content>

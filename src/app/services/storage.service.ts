@@ -16,7 +16,8 @@ export class StorageService {
 
 	async createProfile(item: StorageItem): Promise<any> {
 		const storedItems: StorageItem[] = await this.storage.get(profileKey);
-		if (storedItems) { storedItems.push(item); 
+		if (storedItems) {
+			storedItems.push(item);
 			return this.storage.set(profileKey, storedItems);
 		} else {
 			return this.storage.set(profileKey, [storedItems]);
@@ -25,15 +26,19 @@ export class StorageService {
 
 	async editProfile(item: StorageItem) {
 		const storedItems: StorageItem[] = await this.storage.get(profileKey);
-		if (!storedItems || storedItems.length === 0) { return; }
+		if (!storedItems || storedItems.length === 0) {
+			return;
+		}
 
-		const newItem: StorageItem[] = [...storedItems, {...item}];
+		const newItem: StorageItem[] = [...storedItems, { ...item }];
 		return this.storage.set(profileKey, newItem);
 	}
 
 	async deleteProfile(item: StorageItem) {
 		const storedItems: StorageItem[] = await this.storage.get(profileKey);
-		if (!storedItems || storedItems.length === 0) { return; }
+		if (!storedItems || storedItems.length === 0) {
+			return;
+		}
 
 		const newItem: StorageItem[] = storedItems.filter((profile) => profile.id !== item.id);
 		return this.storage.set(profileKey, newItem);

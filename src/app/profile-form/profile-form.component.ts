@@ -46,6 +46,10 @@ export class ProfileFormComponent implements OnInit, OnDestroy {
 		return this.profileForm.get('mainTimeGroup') as FormGroup;
 	}
 
+	get profileName() {
+		return this.profileForm.get('profileName') as FormGroup;
+	}
+
 	get subtimeArray() {
 		return this.profileForm.get('subtimeArrayGroup') as FormArray;
 	}
@@ -74,16 +78,15 @@ export class ProfileFormComponent implements OnInit, OnDestroy {
 	saveProfile(): void {
 		const newProfile = {} as StorageItem;
 
-		newProfile.id = this.profileForm.value.profileName;
-		newProfile.profileName = this.profileForm.value.profileName;
-		newProfile.timer = {
-			main: {},
-			subtimer: [],
-		};
-	}
+		newProfile.id = this.profileName.value;
+		newProfile.profileName = this.profileName.value;
 
-	maxOfTwentyFourHours(c: AbstractControl): { [key: string]: boolean } | null {
-		return null;
+		newProfile.timer = {
+			main: this.mainTimeForm.value,
+			subtimer: this.subtimeArray.value,
+		};
+
+		this.storageService.createProfile(newProfile);
 	}
 
 	deleteSubtimeForm = (i) => {
@@ -111,7 +114,8 @@ export class ProfileFormComponent implements OnInit, OnDestroy {
 	}
 
 	private preventOverValues(val): CountDownTimer {
-		let newValue = {};
+		let newValue = {} as CountDownTimer;
+
 		if (val.h > 24 ) {
 			newValue = { ...val, h: 24 };
 		}
