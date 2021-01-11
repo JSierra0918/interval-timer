@@ -6,7 +6,7 @@ import { debounceTime, takeUntil, tap } from 'rxjs/operators';
 import content from '../../content/content.json';
 import { StorageItem } from '../models/storage-item';
 import { StorageService } from '../services/storage.service';
-import {CountDownTimer} from '../models/main-timer';
+import { CountDownTimer } from '../models/main-timer';
 
 @Component({
 	selector: 'app-profile-form',
@@ -75,8 +75,10 @@ export class ProfileFormComponent implements OnInit, OnDestroy {
 		this.subtimeArray.push(subtimeGroup);
 	}
 
-	saveProfile(): void {
+	async saveProfile(): Promise<void> {
 		const newProfile = {} as StorageItem;
+
+		//create watcher to check fo zero value
 
 		newProfile.id = this.profileName.value;
 		newProfile.profileName = this.profileName.value;
@@ -86,7 +88,13 @@ export class ProfileFormComponent implements OnInit, OnDestroy {
 			subtimer: this.subtimeArray.value,
 		};
 
-		this.storageService.createProfile(newProfile);
+		await this.storageService.createProfile(newProfile);
+		console.log(await this.storageService.loadProfiles())
+	}
+
+	async clearProfile() {
+		await this.storageService.clearAll();
+		console.log(await this.storageService.loadProfiles());
 	}
 
 	deleteSubtimeForm = (i) => {
@@ -95,28 +103,25 @@ export class ProfileFormComponent implements OnInit, OnDestroy {
 
 	//watchers
 	private watchMainGroupForOverValues(): void {
-		const mainTimeGroupRestraints = this.mainTimeForm.valueChanges.pipe(
-			takeUntil(this.unsubscribe$),
-			debounceTime(1000)
-		);
+		const mainTimeGroupRestraints = this.mainTimeForm.valueChanges.pipe(takeUntil(this.unsubscribe$), debounceTime(1000));
 
-		mainTimeGroupRestraints.subscribe( val => {
+		mainTimeGroupRestraints.subscribe((val) => {
 			const checkedValues = this.preventOverValues(val);
-			this.mainTimeForm.patchValue({...checkedValues})
+			this.mainTimeForm.patchValue({ ...checkedValues });
 		});
 	}
 
 	private watchSubtimeForOverValues(subtimeGroup): void {
 		subtimeGroup.valueChanges.pipe(takeUntil(this.unsubscribe$), debounceTime(1000)).subscribe((val) => {
 			const checkedValues = this.preventOverValues(val);
-			subtimeGroup.patchValue({...checkedValues});
+			subtimeGroup.patchValue({ ...checkedValues });
 		});
 	}
 
 	private preventOverValues(val): CountDownTimer {
 		let newValue = {} as CountDownTimer;
 
-		if (val.h > 24 ) {
+		if (val.h > 24) {
 			newValue = { ...val, h: 24 };
 		}
 		if (val.m > 60) {
