@@ -7,5 +7,9 @@
 		"subtimer": "Subtimer ",
 		"time": "Time",
 		"save": "Save Profile"
+	},
+	"validation": {
+		"requiredProfileName": "You must have a name for the profile.",
+		"requiredMainTime": "You must have at lease one unit of time for the main time."
 	}
 }

@@ -10,16 +10,18 @@
 </ion-header>
 
 <ion-content padding>
-	<form [formGroup]="profileForm" padding>
+	<form [formGroup]="profileForm" padding class="create-profile">
 		<ion-item>
-			<ion-label position="stacked">{{ content.labels.profileName }}</ion-label>
+			<ion-label position="floating">{{ content.labels.profileName }}</ion-label>
 			<ion-input formControlName="profileName"></ion-input>
+			<span
+				*ngIf="profileForm.get('profileName').errors?.required">{{content.validation.requiredProfileName}}</span>
 		</ion-item>
 
 		<ion-list-header>
 			<ion-label>{{ content.labels.mainTimer }}:</ion-label>
 		</ion-list-header>
-
+	
 		<ion-item formGroupName="mainTimeGroup" class="main-timer">
 			<ion-input placeholder="Hours" type="number" formControlName="h" max="24"></ion-input>
 			<ion-input placeholder="Minutes" type="number" formControlName="m" max="60"></ion-input>
@@ -29,15 +31,14 @@
 		<ion-list-header lines="full" class="ion-no-margin">
 			<ion-label>{{ content.labels.subtimers }}:</ion-label>
 		</ion-list-header>
-		<div formArrayName="subtimeArrayGroup" class="create-profile">
-			<div *ngFor="let subtime of subtimeArray.controls; let i = index" [formGroupName]="i" class="ion-justify-content-center">
-				<div class="create-profile__subtimeInput">
-					<ion-input placeholder="Hours" type="number" formControlName="h" max="2"></ion-input>
-					<ion-input placeholder="Minutes" type="number" formControlName="m" max="2"></ion-input>
-					<ion-input placeholder="Seconds" type="number" formControlName="s" max="2"></ion-input>
-					<ion-button (click)="deleteSubtimeForm()">Delete</ion-button>
-				</div>
-			</div>
+
+		<div formArrayName="subtimeArrayGroup">
+			<ion-item class="create-profile__subtimeInput" *ngFor="let subtime of subtimeArray.controls; let i = index" [formGroupName]="i">
+				<ion-input placeholder="Hours" type="number" formControlName="h" max="2"></ion-input>
+				<ion-input placeholder="Minutes" type="number" formControlName="m" max="2"></ion-input>
+				<ion-input placeholder="Seconds" type="number" formControlName="s" max="2"></ion-input>
+				<ion-button (click)="deleteSubtimeForm()">Delete</ion-button>
+			</ion-item>
 		</div>
 		<ion-button (click)="addNewSubtimer()">Add New</ion-button>
 	</form>
