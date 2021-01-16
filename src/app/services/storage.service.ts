@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { StorageItem } from '../models/storage-item';
 import { Storage } from '@ionic/storage';
-import { profile } from 'console';
 
 const profileKey = 'profiles';
 
@@ -35,7 +34,7 @@ export class StorageService {
 		if (!storedItems || storedItems.length === 0) {
 			return;
 		}
-[]
+
 		const newItem: StorageItem[] = storedItems.map(profile => ({...profile, ...item}));
 
 		return this.storage.set(profileKey, newItem);

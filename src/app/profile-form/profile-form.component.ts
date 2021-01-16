@@ -77,18 +77,20 @@ export class ProfileFormComponent implements OnInit, OnDestroy {
 
 	async saveProfile(): Promise<void> {
 		const newProfile = {} as StorageItem;
-
 		//create watcher to check fo zero value
+		this.scrubObjectNullValues(this.mainTimeForm.value);
+		this.subtimeArray.value.map(val => this.scrubObjectNullValues(val));
 
-		newProfile.id = this.profileName.value;
-		newProfile.profileName = this.profileName.value;
-
+		newProfile.id = this.profileName.value.toLowerCase().trim();
+		newProfile.profileName = this.profileName.value.toLowerCase().trim();
 		newProfile.timer = {
 			main: this.mainTimeForm.value,
 			subtimer: this.subtimeArray.value,
 		};
+		
 
 		await this.storageService.createProfile(newProfile);
+		this.profileForm.reset();
 		console.log(await this.storageService.loadProfiles())
 	}
 
@@ -138,5 +140,15 @@ export class ProfileFormComponent implements OnInit, OnDestroy {
 		if ((e.which != 8 && e.which != 0 && e.which < 48) || e.which > 57) {
 			e.preventDefault();
 		}
+	}
+
+	private scrubObjectNullValues(obj:Object):void {
+		Object.keys(obj).map((key) => {
+			if (obj[key] === null){ obj[key] = 0;}
+		  });
+	}
+
+	private scrubArrayNullValues(arr:Array<any>) {
+		return arr.map(val => this.scrubObjectNullValues(val))
 	}
 }
