@@ -4,6 +4,8 @@ import { ModalController } from '@ionic/angular';
 import { IonRouterOutlet } from '@ionic/angular';
 import { ProfileFormComponent } from '../profile-form/profile-form.component';
 import * as content from '../../content/content.json';
+import { StorageItem } from '../models/storage-item';
+import { StorageService } from '../services/storage.service';
 
 @Component({
 	selector: 'app-timer-container',
@@ -15,10 +17,12 @@ export class TimerContainerComponent implements OnInit {
 	timerInterval: any;
 	isCreatingProfile: boolean = false;
 	content = content;
+	storedProfiles: StorageItem[] = [];
 
-	constructor(public modalController: ModalController, private routerOutlet: IonRouterOutlet) {}
+	constructor(public modalController: ModalController, private routerOutlet: IonRouterOutlet, public storageService: StorageService) {}
 
 	ngOnInit() {
+		this.loadProfiles();
 		// this.time.main = {
 		// 	h: 0,
 		// 	m: 0,
@@ -36,6 +40,10 @@ export class TimerContainerComponent implements OnInit {
 		// 		s: 5,
 		// 	},
 		// ];
+	}
+
+	async loadProfiles() {
+		this.storedProfiles = await this.storageService.loadProfiles();
 	}
 
 	startTheTimer = () => {
@@ -56,13 +64,13 @@ export class TimerContainerComponent implements OnInit {
 				if (mainTimer.m < subTimer.m) subTimer.m = mainTimer.m;
 				if (mainTimer.s < subTimer.s) subTimer.s = mainTimer.s;
 
-				subTimer = { ...this.addPadding(subTimer) };
+				subTimer = { ...this.addTimePadding(subTimer) };
 				sTime.h = subTimer.h;
 				sTime.m = subTimer.m;
 				sTime.s = subTimer.s;
 			});
 
-			this.time.main = { ...this.time.main, ...this.addPadding(mainTimer) };
+			this.time.main = { ...this.time.main, ...this.addTimePadding(mainTimer) };
 		}, 1000);
 	};
 
@@ -100,7 +108,7 @@ export class TimerContainerComponent implements OnInit {
 		return hoursAsSeconds + minutesAsSeconds + s;
 	}
 
-	private addPadding(t: CountDownTimer): CountDownTimer {
+	private addTimePadding(t: CountDownTimer): CountDownTimer {
 		let paddedT: CountDownTimer = { ...t };
 		for (const key in t) {
 			if (paddedT[key] !== null) {
@@ -113,7 +121,6 @@ export class TimerContainerComponent implements OnInit {
 
 	createProfile() {
 		this.isCreatingProfile = !this.isCreatingProfile;
-		console.log('isCreatingProfile:', this.isCreatingProfile);
 		this.presentModal();
 	}
 
@@ -129,5 +136,10 @@ export class TimerContainerComponent implements OnInit {
 		// const {data} = await modal.onDidDismiss();
 		// console.log(data)
 		return await modal.present();
+	}
+
+	async testShit() {
+		const savedProfiles = await this.storageService.loadProfiles();
+		console.log('savedProfiles:', savedProfiles);
 	}
 }

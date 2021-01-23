@@ -1,9 +1,10 @@
 <ion-grid style="height: 100%">
+	<button (click)="testShit()"  expand="full">test something</button>
 	<app-subtimer *ngIf="time.main" [subtime]="time.subtimer"></app-subtimer>
-	<!-- //main timer component will be dumb and centered. -->
 	<app-maintimer *ngIf="time.main" [mainTime]="time.main" (startTheTimer)="startTheTimer()" (pauseTheTimer)="pauseTheTimer()"></app-maintimer>
 
-	<ion-row>
+	<app-profile-list *ngIf="storedProfiles && storedProfiles.length >= 1"></app-profile-list>
+	<ion-row *ngIf="storedProfiles && storedProfiles.length === 0">
 		<ion-col size="12">
 			<div class="missing-profile">
 				<p class="missing-profile__text">You have not created any profiles. Click the icon to get started!</p>

@@ -37,6 +37,7 @@ export class ProfileFormComponent implements OnInit, OnDestroy {
 	}
 
 	ionViewDidEnter() {
+		console.log("Entered Profile Components")
 		this.watchMainGroupForOverValues();
 	}
 
@@ -90,8 +91,9 @@ export class ProfileFormComponent implements OnInit, OnDestroy {
 		
 
 		await this.storageService.createProfile(newProfile);
+		this.subtimeArray.clear();
 		this.profileForm.reset();
-		console.log(await this.storageService.loadProfiles())
+		console.log(this.storageService.loadProfiles())
 	}
 
 	async clearProfile() {
