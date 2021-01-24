@@ -2,8 +2,8 @@
 	<button (click)="testShit()"  expand="full">test something</button>
 	<app-subtimer *ngIf="time.main" [subtime]="time.subtimer"></app-subtimer>
 	<app-maintimer *ngIf="time.main" [mainTime]="time.main" (startTheTimer)="startTheTimer()" (pauseTheTimer)="pauseTheTimer()"></app-maintimer>
-
 	<app-profile-list *ngIf="storedProfiles && storedProfiles.length >= 1"></app-profile-list>
+
 	<ion-row *ngIf="storedProfiles && storedProfiles.length === 0">
 		<ion-col size="12">
 			<div class="missing-profile">

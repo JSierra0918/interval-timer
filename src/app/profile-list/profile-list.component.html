@@ -1,21 +1,18 @@
 <ion-row>
   <ion-col size="12">
-    <ion-list reorder="true">
-      <!-- Multi-line sliding item with icon options on both sides -->
+    <ion-list>
       <ion-item-sliding>
-        <ion-item>
-          <ion-label>Item</ion-label>
-        </ion-item>
-        <ion-item-options side="end">
-          <ion-item-option (click)="unread(item)">Unread</ion-item-option>
+        <ion-item>PRofile Name</ion-item>
+        <ion-item-options (ionSwipe)="delete(item)">
+          <ion-item-option expandable (click)="delete(item)">Delete</ion-item-option>
         </ion-item-options>
       </ion-item-sliding>
-    
     </ion-list>
-
   </ion-col>
+</ion-row>
 
-  <ion-col>
+<ion-row>
+  <ion-col size="12">
     <ion-icon class="missing-profile__icon" name="add-circle-outline" (click)="createProfile()"></ion-icon>
   </ion-col>
 </ion-row>
