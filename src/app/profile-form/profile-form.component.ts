@@ -37,7 +37,6 @@ export class ProfileFormComponent implements OnInit, OnDestroy {
 	}
 
 	ionViewDidEnter() {
-		console.log("Entered Profile Components")
 		this.watchMainGroupForOverValues();
 	}
 
@@ -82,8 +81,8 @@ export class ProfileFormComponent implements OnInit, OnDestroy {
 		this.scrubObjectNullValues(this.mainTimeForm.value);
 		this.subtimeArray.value.map(val => this.scrubObjectNullValues(val));
 
-		newProfile.id = this.profileName.value.toLowerCase().trim();
-		newProfile.profileName = this.profileName.value.toLowerCase().trim();
+		newProfile.id = this.profileName.value.trim();
+		newProfile.profileName = this.profileName.value.trim();
 		newProfile.timer = {
 			main: this.mainTimeForm.value,
 			subtimer: this.subtimeArray.value,
@@ -93,12 +92,10 @@ export class ProfileFormComponent implements OnInit, OnDestroy {
 		await this.storageService.createProfile(newProfile);
 		this.subtimeArray.clear();
 		this.profileForm.reset();
-		console.log(this.storageService.loadProfiles())
 	}
 
 	async clearProfile() {
 		await this.storageService.clearAll();
-		console.log(await this.storageService.loadProfiles());
 	}
 
 	deleteSubtimeForm = (i) => {

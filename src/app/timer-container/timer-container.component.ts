@@ -3,7 +3,7 @@ import { TimerModel, CountDownTimer } from '../models/main-timer';
 import { ModalController } from '@ionic/angular';
 import { IonRouterOutlet } from '@ionic/angular';
 import { ProfileFormComponent } from '../profile-form/profile-form.component';
-import * as content from '../../content/content.json';
+import content from '../../content/content.json';
 import { StorageItem } from '../models/storage-item';
 import { StorageService } from '../services/storage.service';
 
@@ -23,27 +23,11 @@ export class TimerContainerComponent implements OnInit {
 
 	ngOnInit() {
 		this.loadProfiles();
-		// this.time.main = {
-		// 	h: 0,
-		// 	m: 0,
-		// 	s: 20,
-		// };
-		// this.time.subtimer = [
-		// 	{
-		// 		h: 0,
-		// 		m: 0,
-		// 		s: 10,
-		// 	},
-		// 	{
-		// 		h: 0,
-		// 		m: 0,
-		// 		s: 5,
-		// 	},
-		// ];
 	}
 
 	async loadProfiles() {
 		this.storedProfiles = await this.storageService.loadProfiles();
+		console.log(this.storedProfiles);
 	}
 
 	startTheTimer = () => {
@@ -136,6 +120,11 @@ export class TimerContainerComponent implements OnInit {
 		// const {data} = await modal.onDidDismiss();
 		// console.log(data)
 		return await modal.present();
+	}
+
+	loadSelectedProfile(valueEmitted: TimerModel) {
+		this.time.main = { ...valueEmitted.main };
+		this.time.subtimer = [...valueEmitted.subtimer];
 	}
 
 	async testShit() {

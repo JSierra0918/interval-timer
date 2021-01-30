@@ -1,11 +1,13 @@
 {
-	"labels": {
-		"createProfile": "Create Profile",
-		"mainTimer": "Main Timer",
-		"profileName": "Profile Name:",
-		"subtimers": "Subtimers",
-		"subtimer": "Subtimer ",
-		"time": "Time",
-		"save": "Save Profile"
-	}
+    "labels": {
+        "createProfile": "Create Profile",
+        "delete": "Delete",
+        "edit": "Edit",
+        "mainTimer": "Main Timer",
+        "profileName": "Profile Name:",
+        "save": "Save Profile",
+        "subtimer": "Subtimer ",
+        "subtimers": "Subtimers",
+        "time": "Time"
+    }
 }

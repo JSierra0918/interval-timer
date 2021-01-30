@@ -1,8 +1,11 @@
 <ion-grid style="height: 100%">
-	<button (click)="testShit()"  expand="full">test something</button>
+	<button (click)="testShit()" expand="full">Test Button</button>
 	<app-subtimer *ngIf="time.main" [subtime]="time.subtimer"></app-subtimer>
 	<app-maintimer *ngIf="time.main" [mainTime]="time.main" (startTheTimer)="startTheTimer()" (pauseTheTimer)="pauseTheTimer()"></app-maintimer>
-	<app-profile-list *ngIf="storedProfiles && storedProfiles.length >= 1"></app-profile-list>
+	<app-profile-list 
+		*ngIf="storedProfiles && storedProfiles.length >= 1 && time.main === null" 
+		[profiles]="storedProfiles"
+		(selectProfile)="loadSelectedProfile($event)"></app-profile-list>
 
 	<ion-row *ngIf="storedProfiles && storedProfiles.length === 0">
 		<ion-col size="12">

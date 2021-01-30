@@ -46,7 +46,7 @@ export class StorageService {
 		if (!storedItems || storedItems.length === 0) {
 			return;
 		}
-		const newItem: StorageItem[] = storedItems.filter((profile) => profile.id !== item.id);
+		const newItem: StorageItem[] = storedItems.filter((profile) => profile.id.toLowerCase() !== item.id.toLowerCase());
 		return this.storage.set(profileKey, newItem);
 	}
 }
