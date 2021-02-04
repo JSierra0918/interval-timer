@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { StorageItem } from '../models/storage-item';
+import { StorageItem } from '../../models/storage-item';
 import { Storage } from '@ionic/storage';
 
 const profileKey = 'profiles';
@@ -20,10 +20,9 @@ export class StorageService {
 
 	async createProfile(item: StorageItem): Promise<any> {
 		const storedItems: StorageItem[] = await this.storage.get(profileKey);
-
 		if (storedItems && storedItems.length > 0) {
-			const newItem: StorageItem[] = storedItems.map(profile => ({...profile, ...item}));
-			return this.storage.set(profileKey, newItem);
+			storedItems.push(item);
+			return this.storage.set(profileKey, storedItems);
 		} else {
 			return this.storage.set(profileKey, [item]);
 		}
@@ -34,9 +33,7 @@ export class StorageService {
 		if (!storedItems || storedItems.length === 0) {
 			return;
 		}
-
-		const newItem: StorageItem[] = storedItems.map(profile => ({...profile, ...item}));
-
+		const newItem: StorageItem[] = storedItems.map((profile) => ({ ...profile, ...item }));
 		return this.storage.set(profileKey, newItem);
 	}
 

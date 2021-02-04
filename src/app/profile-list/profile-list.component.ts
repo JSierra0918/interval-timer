@@ -12,6 +12,7 @@ export class ProfileListComponent implements OnInit {
   @Input() profiles:StorageItem[];
 
   @Output() selectProfile: EventEmitter<any> = new EventEmitter<any>();
+  @Output() createProfile: EventEmitter<any> = new EventEmitter<any>();
 
   content = content;
 
@@ -23,5 +24,9 @@ export class ProfileListComponent implements OnInit {
     event.preventDefault();
     event.stopImmediatePropagation();
     this.selectProfile.emit(profile);
+  }
+
+  emitCreateProfile(){
+    this.createProfile.emit();
   }
 }

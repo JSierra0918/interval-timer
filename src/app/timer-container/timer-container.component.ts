@@ -5,7 +5,8 @@ import { IonRouterOutlet } from '@ionic/angular';
 import { ProfileFormComponent } from '../profile-form/profile-form.component';
 import content from '../../content/content.json';
 import { StorageItem } from '../models/storage-item';
-import { StorageService } from '../services/storage.service';
+import { StorageService } from '../services/storage/storage.service';
+import { TimerService } from '../services/add-time-padding/add-time-padding.service';
 
 @Component({
 	selector: 'app-timer-container',
@@ -15,19 +16,24 @@ import { StorageService } from '../services/storage.service';
 export class TimerContainerComponent implements OnInit {
 	time: TimerModel = { main: null, subtimer: [] };
 	timerInterval: any;
-	isCreatingProfile: boolean = false;
+	isCreatingProfile = false;
+	isInTimerMode = false;
 	content = content;
 	storedProfiles: StorageItem[] = [];
 
-	constructor(public modalController: ModalController, private routerOutlet: IonRouterOutlet, public storageService: StorageService) {}
+	constructor(public modalController: ModalController, private routerOutlet: IonRouterOutlet, public storageService: StorageService, private timeService: TimerService) {}
 
 	ngOnInit() {
 		this.loadProfiles();
 	}
 
+	ionViewWillEnter() {
+		console.log("view will enter");
+		this.loadProfiles();
+	}
+
 	async loadProfiles() {
 		this.storedProfiles = await this.storageService.loadProfiles();
-		console.log(this.storedProfiles);
 	}
 
 	startTheTimer = () => {
@@ -48,13 +54,13 @@ export class TimerContainerComponent implements OnInit {
 				if (mainTimer.m < subTimer.m) subTimer.m = mainTimer.m;
 				if (mainTimer.s < subTimer.s) subTimer.s = mainTimer.s;
 
-				subTimer = { ...this.addTimePadding(subTimer) };
+				subTimer = { ...this.timeService.addTimePadding(subTimer) };
 				sTime.h = subTimer.h;
 				sTime.m = subTimer.m;
 				sTime.s = subTimer.s;
 			});
 
-			this.time.main = { ...this.time.main, ...this.addTimePadding(mainTimer) };
+			this.time.main = { ...this.time.main, ...this.timeService.addTimePadding(mainTimer) };
 		}, 1000);
 	};
 
@@ -92,17 +98,6 @@ export class TimerContainerComponent implements OnInit {
 		return hoursAsSeconds + minutesAsSeconds + s;
 	}
 
-	private addTimePadding(t: CountDownTimer): CountDownTimer {
-		let paddedT: CountDownTimer = { ...t };
-		for (const key in t) {
-			if (paddedT[key] !== null) {
-				paddedT[key] = t[key].toString().padStart(2, '0');
-			}
-		}
-
-		return paddedT;
-	}
-
 	createProfile() {
 		this.isCreatingProfile = !this.isCreatingProfile;
 		this.presentModal();
@@ -125,6 +120,7 @@ export class TimerContainerComponent implements OnInit {
 	loadSelectedProfile(valueEmitted: TimerModel) {
 		this.time.main = { ...valueEmitted.main };
 		this.time.subtimer = [...valueEmitted.subtimer];
+		this.isInTimerMode = !this.isInTimerMode;
 	}
 
 	async testShit() {

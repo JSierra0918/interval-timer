@@ -5,8 +5,9 @@ import { Subject } from 'rxjs';
 import { debounceTime, takeUntil, tap } from 'rxjs/operators';
 import content from '../../content/content.json';
 import { StorageItem } from '../models/storage-item';
-import { StorageService } from '../services/storage.service';
+import { StorageService } from '../services/storage/storage.service';
 import { CountDownTimer } from '../models/main-timer';
+import { TimerService } from '../services/add-time-padding/add-time-padding.service';
 
 @Component({
 	selector: 'app-profile-form',
@@ -27,7 +28,7 @@ export class ProfileFormComponent implements OnInit, OnDestroy {
 		subtimeArrayGroup: this.fb.array([]),
 	});
 
-	constructor(private modalController: ModalController, private fb: FormBuilder, private storageService: StorageService) {}
+	constructor(private modalController: ModalController, private fb: FormBuilder, private storageService: StorageService, private timerService: TimerService) {}
 
 	ngOnInit() {}
 
@@ -78,20 +79,20 @@ export class ProfileFormComponent implements OnInit, OnDestroy {
 	async saveProfile(): Promise<void> {
 		const newProfile = {} as StorageItem;
 		//create watcher to check fo zero value
-		this.scrubObjectNullValues(this.mainTimeForm.value);
-		this.subtimeArray.value.map(val => this.scrubObjectNullValues(val));
+		const scrubbedMainTime = this.scrubObjectNullValues(this.mainTimeForm.value);
+		const scrubbedSubtime = this.subtimeArray.value.map((val) => this.scrubObjectNullValues(val));
 
 		newProfile.id = this.profileName.value.trim();
 		newProfile.profileName = this.profileName.value.trim();
 		newProfile.timer = {
-			main: this.mainTimeForm.value,
-			subtimer: this.subtimeArray.value,
+			main: scrubbedMainTime,
+			subtimer: scrubbedSubtime,
 		};
-		
 
 		await this.storageService.createProfile(newProfile);
-		this.subtimeArray.clear();
-		this.profileForm.reset();
+		console.log(await this.storageService.loadProfiles());
+		// this.subtimeArray.clear();
+		// this.profileForm.reset();
 	}
 
 	async clearProfile() {
@@ -141,13 +142,13 @@ export class ProfileFormComponent implements OnInit, OnDestroy {
 		}
 	}
 
-	private scrubObjectNullValues(obj:Object):void {
+	private scrubObjectNullValues(obj: Object): CountDownTimer {
 		Object.keys(obj).map((key) => {
-			if (obj[key] === null){ obj[key] = 0;}
-		  });
-	}
+			if (obj[key] === null) {
+				obj[key] = 0;
+			}
+		});
 
-	private scrubArrayNullValues(arr:Array<any>) {
-		return arr.map(val => this.scrubObjectNullValues(val))
+		return { ...this.timerService.addTimePadding(obj) };
 	}
 }
