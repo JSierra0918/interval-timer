@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { TimerModel, CountDownTimer } from '../models/main-timer';
 import { ModalController } from '@ionic/angular';
 import { IonRouterOutlet } from '@ionic/angular';
-import { ProfileFormComponent } from '../profile-form/profile-form.component';
+import { ProfileFormComponent } from '../components/profile-form/profile-form.component';
 import content from '../../content/content.json';
 import { StorageItem } from '../models/storage-item';
 import { StorageService } from '../services/storage/storage.service';
@@ -15,6 +15,7 @@ import { TimerService } from '../services/add-time-padding/add-time-padding.serv
 })
 export class TimerContainerComponent implements OnInit {
 	time: TimerModel = { main: null, subtimer: [] };
+	selectedProfile: TimerModel = { main: null, subtimer: [] };
 	timerInterval: any;
 	isCreatingProfile = false;
 	isInTimerMode = false;
@@ -28,7 +29,7 @@ export class TimerContainerComponent implements OnInit {
 	}
 
 	ionViewWillEnter() {
-		console.log("view will enter");
+		console.log('view will enter');
 		this.loadProfiles();
 	}
 
@@ -65,6 +66,13 @@ export class TimerContainerComponent implements OnInit {
 	};
 
 	pauseTheTimer = () => {
+		this.time.main.isRunning = false;
+		clearInterval(this.timerInterval);
+	};
+
+	resetTheTimer = () => {
+		this.time.main = { ...this.selectedProfile.main };
+		this.time.subtimer = [...this.selectedProfile.subtimer];
 		this.time.main.isRunning = false;
 		clearInterval(this.timerInterval);
 	};
@@ -120,6 +128,8 @@ export class TimerContainerComponent implements OnInit {
 	loadSelectedProfile(valueEmitted: TimerModel) {
 		this.time.main = { ...valueEmitted.main };
 		this.time.subtimer = [...valueEmitted.subtimer];
+		this.selectedProfile.main = { ...valueEmitted.main };
+		this.selectedProfile.subtimer = [...valueEmitted.subtimer];
 		this.isInTimerMode = !this.isInTimerMode;
 	}
 

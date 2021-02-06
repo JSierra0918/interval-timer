@@ -3,11 +3,11 @@ import { FormArray, FormBuilder, Validators, AbstractControl, FormGroup } from '
 import { ModalController } from '@ionic/angular';
 import { Subject } from 'rxjs';
 import { debounceTime, takeUntil, tap } from 'rxjs/operators';
-import content from '../../content/content.json';
-import { StorageItem } from '../models/storage-item';
-import { StorageService } from '../services/storage/storage.service';
-import { CountDownTimer } from '../models/main-timer';
-import { TimerService } from '../services/add-time-padding/add-time-padding.service';
+import content from '../../../content/content.json';
+import { StorageItem } from '../../models/storage-item';
+import { StorageService } from '../../services/storage/storage.service';
+import { CountDownTimer } from '../../models/main-timer';
+import { TimerService } from '../../services/add-time-padding/add-time-padding.service';
 
 @Component({
 	selector: 'app-profile-form',

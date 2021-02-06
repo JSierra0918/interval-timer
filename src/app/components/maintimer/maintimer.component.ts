@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { TimerModel } from '../models/main-timer';
+import { TimerModel } from '../../models/main-timer';
 
 @Component({
   selector: 'app-maintimer',
@@ -11,6 +11,7 @@ export class MaintimerComponent implements OnInit {
   @Input() mainTime: TimerModel;
   
   @Output() startTheTimer = new EventEmitter<any>();
+  @Output() resetTheTimer = new EventEmitter<any>();
   @Output() pauseTheTimer = new EventEmitter<any>();
 
   constructor() { }
@@ -19,6 +20,10 @@ export class MaintimerComponent implements OnInit {
 
   startTimer() {
     this.startTheTimer.emit();
+  }
+
+  resetTimer() {
+    this.resetTheTimer.emit();
   }
 
   pauseTimer() {

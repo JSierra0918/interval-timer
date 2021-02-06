@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { TimerModel } from '../models/main-timer';
+import { TimerModel } from '../../models/main-timer';
 
 @Component({
 	selector: 'app-subtimer',

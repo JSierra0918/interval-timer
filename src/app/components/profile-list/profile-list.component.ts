@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { StorageItem } from '../models/storage-item';
-import content from '../../content/content.json';
+import { StorageItem } from '../../models/storage-item';
+import content from '../../../content/content.json';
 
 @Component({
   selector: 'app-profile-list',

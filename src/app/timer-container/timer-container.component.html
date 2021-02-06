@@ -1,7 +1,7 @@
 <ion-grid style="height: 100%">
 	<button (click)="testShit()" expand="full">Test Button</button>
 	<app-subtimer *ngIf="time.main" [subtime]="time.subtimer"></app-subtimer>
-	<app-maintimer *ngIf="time.main && isInTimerMode" [mainTime]="time.main" (startTheTimer)="startTheTimer()" (pauseTheTimer)="pauseTheTimer()"></app-maintimer>
+	<app-maintimer *ngIf="time.main && isInTimerMode" [mainTime]="time.main" (startTheTimer)="startTheTimer()" (resetTheTimer)="resetTheTimer()" (pauseTheTimer)="pauseTheTimer()"></app-maintimer>
 	<app-profile-list 
 		*ngIf="storedProfiles && storedProfiles.length >= 1 && !isInTimerMode" 
 		[profiles]="storedProfiles"
